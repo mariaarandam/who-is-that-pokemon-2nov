@@ -1,7 +1,7 @@
 //for implementation details visit marinsborg.com
 var apiUrl = "https://pokeapi.co/api/v2/pokemon/?"; //API base URL
 var offset = 0;
-var limit = 10; //limiting Pokemons - sprites are not numbered properly after 665
+var limit = 151; //limiting Pokemons - sprites are not numbered properly after 665
 var pokemonUrl = apiUrl + "limit=" + limit + "&offset=" + offset; //complete URL with limit
 var spriteUrl =
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"; //base URL from which sprites are fetched
@@ -12,6 +12,11 @@ const pokemonNameElement = document.getElementById("pokemon-name"); //element ob
 var streak = 0; //initialize streak to zero
 var pokemonName = ""; //set pokemon name as global variable
 var pokemonData; //variable which holds the response from Pokemon API
+
+//// SOLUTION
+var button = document.querySelector("#checkPokemon");
+
+button.addEventListener('click', checkGuess);
 
 //add event listener on input field and when user presses Enter key, execute the function
 guess.addEventListener("keypress", function (e) {
@@ -27,6 +32,8 @@ function playPokemonMp3() {
   audio.play();
 }
 
+guess.addEventListener = ("focus", playPokemonMp3);
+
 //function that fetched Pokemon data from the API
 const fetchPokemonData = async function (url) {
   return fetch(url).then((response) => response.json());
@@ -40,8 +47,12 @@ var main = async function () {
 
 //function that compares player's guess with Pokemon name and based on that either increases or resets streak
 function checkGuess() {
-  if (pokemonName.toLowerCase() === guess.value) {
+  console.log("Que muestro en pokemon", pokemonName);
+  console.log("Que muestro en guess", guess.value);
+  console.log("Soy guess en minus", guess.value.toLowerCase());
+  if (pokemonName.toLowerCase() === guess.value.toLowerCase()) {
     streak++; //correct guess - increase streak by one
+    
   } else {
     streak = 0; //wrong guess - reset streak
   }
@@ -71,7 +82,7 @@ function showPokemon() {
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is inclusive and the minimum is inclusive
 }
 //function call that starts application
 main();
